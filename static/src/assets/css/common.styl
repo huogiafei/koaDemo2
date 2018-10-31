@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css?family=Julius+Sans+One');
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import "../fonts/font.css"
+
+F_Julius = 'Julius Sans One', sans-serif;
+F_Ms = 'Montserrat', sans-serif;
+
+*
+  font-family: F_Ms;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box
+
+body
+  margin: 0
+  padding: 0
+
+.wrapper
+  margin: 0
+
+.header
+  background-color: #1a1a1a
+  width: 100%
+  padding: 10px 20px
+
+.header-logo
+  width: 60px
+  float: left
+  margin-right: 20px
+
+.header-title
+  font-size: 24px
+  font-family: F_Julius
+  letter-spacing .1em
+  color: #ddd
+  margin: 0
+  line-height: 60px
+  font-weight: bold
+
+//ASIDE
+.aside
+  height: calc(100vh - 80px)
+  position: relative
+  overflow hidden
+
+.aside-menu
+  height: calc(100% - 50px)
+  overflow-y auto
+  &.active
+    width: 300px
+
+.aside-collapse
+  position: absolute
+  width: 100%
+  bottom: 0
+  left: 0
+  padding: 0 20px;
+  border-right: 1px solid #ddd;
+  text-align: right
+
+  z-index: 1
+  [class*='icon']
+    display: block
+    height: 50px
+    line-height: @height
+    color: #333
+    cursor: pointer
+    font-size: 24px
+  &:hover
+    background-color: #eee
+
+.aside-menu-icon
+  margin-right: 10px
+  font-size: 20px
+  color: #666
+    
+//VIEW
+.view-wrapper{
+  padding: 10px
+}
+.view-title
+  font-family:F_Julius
+  font-size: 36px
+  margin: 0 0 30px 0
+  color: #333
+  border-left:10px solid currentColor
+  padding-left: 15px
+
+//FORM
+.form .form-input-s
+  width: 300px

@@ -1,0 +1,31 @@
+<template>
+  <div id="app">
+    <div class="wrapper">
+      <el-container direction="vertical">
+        <compHeader></compHeader>
+        <el-container>
+            <compSide></compSide>
+            <el-main>
+              <router-view/>
+            </el-main>
+        </el-container>
+      </el-container>
+    </div>
+  </div>
+</template>
+
+<style>
+
+</style>
+
+<script>
+    import compHeader from '@/views/comp/_Header.vue'
+    import compSide from '@/views/comp/_Side.vue'
+    export default {
+        name: 'home',
+        components: {
+            compHeader,
+            compSide
+        }
+    }
+</script>
