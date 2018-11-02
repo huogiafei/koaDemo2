@@ -5,7 +5,7 @@
         <compHeader></compHeader>
         <el-container>
             <compSide></compSide>
-            <el-main>
+            <el-main class="main">
               <router-view/>
             </el-main>
         </el-container>

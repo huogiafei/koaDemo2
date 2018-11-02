@@ -5,6 +5,6 @@ module.exports = {
         host:'127.0.0.1:27017',
         user:'root',
         password:'',
-        database:'koa_demo'
+        database:'koa_demo2'
     }
 }

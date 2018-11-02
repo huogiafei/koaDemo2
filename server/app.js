@@ -18,8 +18,8 @@ app
     .use(routers.routes())
     .use(routers.allowedMethods())
 
-app.use((ctx,next)=>{
-    ctx.body = `<h1>Koa Demo2</h1>`
+app.use(async(ctx,next)=>{
+    ctx.body = 'hello Koa demo'
 })
 
 app.listen(config.port,()=>{

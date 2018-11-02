@@ -8,6 +8,10 @@
                         <el-input v-model="form.username" class="form-input-s"></el-input>
                     </el-form-item>
 
+                    <el-form-item label="Email" >
+                        <el-input v-model="form.email" class="form-input-s"></el-input>
+                    </el-form-item>
+
                     <el-form-item label="Permission">
                         <el-select v-model="form.permission" placeholder="请选择" class="form-input-s">
                             <el-option
@@ -81,6 +85,7 @@
             return {
                 form: {
                     username: '',
+                    email:'',
                     permission: '',
                     role: [],
                     haveGaPermission: false,

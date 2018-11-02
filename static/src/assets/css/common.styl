@@ -37,6 +37,25 @@ body
   line-height: 60px
   font-weight: bold
 
+//MAIN
+.main
+  height:calc(100vh - 80px)
+  overflow-y auto
+  &::-webkit-scrollbar
+    width: 12px
+
+  &::-webkit-scrollbar-track-piece
+    background-color: #fff
+
+  &::-webkit-scrollbar-thumb:vertical
+    height: 5px
+    background-color: hsla(0, 0%, 66%, 0.6)
+
+  &::-webkit-scrollbar-thumb:vertical:hover
+    height: 5px
+    background-color: hsla(0, 0%, 66%, 0.9)
+
+
 //ASIDE
 .aside
   height: calc(100vh - 80px)
@@ -76,7 +95,7 @@ body
     
 //VIEW
 .view-wrapper{
-  padding: 10px
+  padding: 20px 10px
 }
 .view-title
   font-family:F_Julius
@@ -89,3 +108,7 @@ body
 //FORM
 .form .form-input-s
   width: 300px
+
+.pagination-wrapper
+  padding: 0
+  margin: 20px 0
