@@ -20,7 +20,7 @@
             <el-table-column
                     prop="email"
                     label="Email"
-                    width="300">
+                    width="250">
             </el-table-column>
             <el-table-column
                     prop="permission.title"
@@ -28,9 +28,9 @@
                     width="200">
             </el-table-column>
             <el-table-column
-                    prop="role"
+                    prop="role.title"
                     label="Role"
-                    width="200">
+                    width="100">
             </el-table-column>
             <el-table-column :formatter="cellValueRenderer"
                              prop="ga"

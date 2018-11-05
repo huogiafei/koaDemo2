@@ -5,12 +5,13 @@
   "main": "app.js",
   "scripts": {
     "dev-server": "nodemon ./server/app",
-    "db-init":"node ./init/db.js"
+    "db-init": "node ./init/db.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "joi": "^14.0.4",
     "koa": "^2.5.3",
     "koa-bodyparser": "^4.2.1",
     "koa-compress": "^3.0.0",

@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const userPermissionDefine = {
     _id: {
         type:Number,
-        ref:'User',
     },
     title: {
         type:String,

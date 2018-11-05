@@ -3,10 +3,12 @@ import App from './App.vue'
 import './plugins/element.js'
 import 'element-ui/lib/theme-chalk/index.css';
 import router from './routers/router'
+import Vuelidate from 'vuelidate'
 
 import "./assets/css/common.styl"
 
 Vue.config.productionTip = false
+Vue.use(Vuelidate)
 
 router.beforeEach((to, from, next) => {
     if(to.meta.title){

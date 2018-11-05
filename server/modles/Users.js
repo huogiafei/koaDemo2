@@ -6,6 +6,7 @@ const dbStr = 'mongodb://' + config.db.host + '/' + config.db.database
 
 const userSchema = require('../schema/user');
 const permissionSchema = require('../schema/user-permission');
+const roleSchema = require('../schema/user-role');
 
 mongoose.connect(dbStr, {useNewUrlParser: true});
 const db = mongoose.connection;
@@ -17,12 +18,20 @@ db.on('error', (err) => {
 
 let User = mongoose.model('User', userSchema)
 let Permission = mongoose.model('Permission', permissionSchema)
+let Role = mongoose.model('Role', roleSchema)
 
 const user = {
     async findUsers() {
         return new Promise(async (resolve, reject) => {
-            User.find({})
-                .populate('permission')
+            User.find()
+                .populate('permission','title')
+                .populate({
+                    path:'role',
+                    populate:{
+                        path:'children',
+                        model:'Role'
+                    }
+                })
                 .exec((err, docs) => {
                     if (err) {
                         reject(err);
@@ -35,6 +44,14 @@ const user = {
                         }
                     }
                 })
+        })
+    },
+
+    async insertUser(data){
+        return new Promise(async (resolve,reject)=>{
+            let newUser = new User(data)
+            newUser.save()
+            resolve(true)
         })
     },
 
