@@ -1,55 +1,55 @@
 module.exports = [
     {
-        value:'1',
+        value:0,
         label:'开发',
         children:[
             {
-                value:'11',
+                value:1,
                 label:'前端'
             },
             {
-                value:'12',
+                value:2,
                 label:'后台'
             },
             {
-                value:'13',
+                value:3,
                 label:'测试'
             },
             {
-                value:'14',
+                value:4,
                 label:'运维'
             }
         ]
     },
     {
-        value:'2',
+        value:1,
         label:'渠道',
         children:[
             {
               label:'Facebook',
-              value:'21'
+              value:5
             },
             {
                 label:'Google',
-                value:'22'
+                value:6
             },
             {
                 label:'Youtube',
-                value:'23'
+                value:7
             }
         ]
     },
     {
-        value:'3',
+        value:2,
         label:'客服',
         children:[
             {
                 label:'售前',
-                value:'31'
+                value:8
             },
             {
                 label:'售后',
-                value:'32'
+                value:9
             }
         ]
     }

@@ -26,6 +26,12 @@
         components: {
             compHeader,
             compSide
+        },
+        mounted(){
+            this.$notify({
+                title: 'Welcome, Edward',
+                message: 'last login time: 10-23 17:55'
+            });
         }
     }
 </script>

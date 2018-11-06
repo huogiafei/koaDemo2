@@ -5,6 +5,7 @@
             <el-col :span="12">
                 <el-form ref="form" :model="form" label-width="120px"
                          :rules="rules" :label-position="'left'" class="form">
+
                     <el-form-item label="Name" prop="username">
                         <el-input v-model="form.username" class="form-input-s"></el-input>
                     </el-form-item>
@@ -69,16 +70,22 @@
                         </el-date-picker>
                     </el-form-item>
 
-
                     <el-form-item label="">
                         <el-row :gutter="10">
                             <el-col :span="12">
-                                <el-button @click="resetForm"  class="form-input-s">Reset</el-button>
+                                <el-button @click="resetForm" class="form-input-s">Reset</el-button>
                             </el-col>
-                            <el-col :span="12">
+                            <el-col :span="12" v-if="!this.$route.query.id">
+                                <el-button type="success" :loading="addUserLoading"
+                                           @click="submit" class="form-input-s">Add
+                                </el-button>
+                            </el-col>
+                            <el-col :span="12" v-if="this.$route.query.id">
                                 <el-button type="primary" :loading="addUserLoading"
-                                           @click="submit" class="form-input-s">Add</el-button>
+                                           @click="update" class="form-input-s">Update
+                                </el-button>
                             </el-col>
+
                         </el-row>
                     </el-form-item>
                 </el-form>
@@ -91,14 +98,14 @@
 <script>
     import rolesData from "../../data/roles";
     import axios from 'axios'
-    import {required, minLength, email} from 'vuelidate/lib/validators'
     import router from "../../routers/router";
 
     export default {
         name: "EditUser",
         data() {
             return {
-                addUserLoading:false,
+                submitError: false,
+                addUserLoading: false,
                 form: {
                     username: '',
                     email: '',
@@ -130,37 +137,36 @@
                 }
             }
         },
-        validations: {
-            form: {
-                username: {
-                    required, minLength:
-                        minLength(3)
-                }
-                ,
-                email: {
-                    required, email
-                }
-                ,
-                permission: {
-                    required
-                }
-                ,
-                role: {
-                    required
-                }
-                ,
-                joinTime: {
-                    required
-                }
-            }
-        },
         methods: {
-            submit(){
-                this.$refs['form'].validate((flag,object)=>{
-                    if(flag){
-                        this.addUser()
+            submit() {
+                this.$refs['form'].validate((flag) => {
+                    if (flag) {
+                        this.addUser();
                     }
-                })  
+                })
+            },
+            update() {
+                const UserId = this.$route.query.id
+                let self = this;
+                axios.post('/api/updateUser', {
+                    id: UserId,
+                    name: self.form.username,
+                    email: self.form.email,
+                    permission: self.form.permission,
+                    role: self.form.role[0],
+                    ga: self.form.haveGaPermission,
+                    join_time: self.form.joinTime
+                }).then((res) => {
+                    if(res.data.code === 1){
+                        this.$message({
+                            message: 'Update Success',
+                            type: 'success'
+                        });
+                        setTimeout(function(){
+                            router.push('/user/list')
+                        })
+                    }
+                })
             },
             resetForm() {
                 this.$refs['form'].resetFields()
@@ -179,10 +185,39 @@
                     join_time: self.form.joinTime
                 }).then((res) => {
                     self.addUserLoading = false
-                    if(res.data.code === 1){
+                    if (res.data.code === 1) {
                         router.push('/user/list')
-                    }else{
-
+                    } else {
+                        console.log(res.data.message)
+                        self.submitError = true
+                        this.$message.error({
+                            dangerouslyUseHTMLString: true,
+                            duration: 0,
+                            showClose: true,
+                            message: `<p>Add User Failed, please try again.</p>
+                                       <p>reason:${res.data.message}</p>`
+                        });
+                    }
+                })
+            }
+        },
+        created() {
+            const userId = this.$route.query.id
+            let self = this
+            console.log(userId)
+            if (userId) {
+                axios.post('/api/findUser', {
+                    id: userId
+                }).then((res) => {
+                    if (res.data.code == 1) {
+                        console.log(res.data.data)
+                        const result = res.data.data
+                        self.form.username = result.name
+                        self.form.permission = result.permission
+                        self.form.email = result.email
+                        self.form.role = [1, 7]
+                        self.form.haveGaPermission = result.ga
+                        self.form.joinTime = new Date(result.join_time)
                     }
                 })
             }

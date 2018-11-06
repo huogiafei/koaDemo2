@@ -24,12 +24,12 @@ const user = {
     async findUsers() {
         return new Promise(async (resolve, reject) => {
             User.find()
-                .populate('permission','title')
+                .populate('permission', 'title')
                 .populate({
-                    path:'role',
-                    populate:{
-                        path:'children',
-                        model:'Role'
+                    path: 'role',
+                    populate: {
+                        path: 'children',
+                        model: 'Role'
                     }
                 })
                 .exec((err, docs) => {
@@ -47,11 +47,45 @@ const user = {
         })
     },
 
-    async insertUser(data){
-        return new Promise(async (resolve,reject)=>{
+    async findOneUser(id) {
+        return new Promise(async (resolve, reject) => {
+            console.log(id)
+            User.findById(id, (err, doc) => {
+                if (err) {
+                    resolve(false)
+                } else {
+                    resolve(doc)
+                }
+            })
+        });
+    },
+
+    async insertUser(data) {
+        return new Promise(async (resolve, reject) => {
             let newUser = new User(data)
             newUser.save()
             resolve(true)
+        })
+    },
+
+    async updateUser(id,data){
+       return new Promise((resolve, reject) => {
+           console.log(id,data)
+           User.findOneAndUpdate(id,data,(err,result)=>{
+               resolve(true)
+           })
+       })
+    },
+
+    async deleteUser(mail) {
+        return new Promise(async (resolve, reject) => {
+            User.findOneAndDelete({email: mail}, (result) => {
+                if (!result) {
+                    resolve(true)
+                } else {
+                    resolve(false)
+                }
+            })
         })
     },
 
