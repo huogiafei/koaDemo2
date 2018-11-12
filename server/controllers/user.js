@@ -32,9 +32,10 @@ module.exports = {
     },
     updateUser: async (ctx) => {
         let req = ctx.request.body
-        if(ctx.request.body.id){
+        if(req.id){
             const userId = req.id
             delete req.id;
+            console.log(req)
             Joi.validate(req, schema,  (err, value) => {
                 if (err) {
                     console.log(err.details[0])

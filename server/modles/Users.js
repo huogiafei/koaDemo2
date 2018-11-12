@@ -52,6 +52,7 @@ const user = {
             console.log(id)
             User.findById(id, (err, doc) => {
                 if (err) {
+                    console.log(err)
                     resolve(false)
                 } else {
                     resolve(doc)
@@ -71,7 +72,7 @@ const user = {
     async updateUser(id,data){
        return new Promise((resolve, reject) => {
            console.log(id,data)
-           User.findOneAndUpdate(id,data,(err,result)=>{
+           User.findOneAndUpdate({'_id':id},data,(err,result)=>{
                resolve(true)
            })
        })
