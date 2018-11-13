@@ -3,16 +3,28 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
-  state: {
-    token:''
-  },
-  mutations: {
-    login(state){
-      state.token = 'test'
-    }
-  },
-  actions: {
+const userDataStr = localStorage.getItem('userData')
+let data = ''
+if(userDataStr){
+    data = JSON.stringify(userDataStr)
+}
 
-  }
+export default new Vuex.Store({
+    state: {
+        token: localStorage.getItem('token'),
+        username:data ? data.username:''
+    },
+    mutations: {
+        login(state,userData) {
+            localStorage.setItem('token', JSON.parse(userData).token)
+            localStorage.setItem('userData',userData)
+            state.token = JSON.parse(userData).token
+            state.username =  JSON.parse(userData).username
+        },
+        logout(state) {
+            localStorage.setItem('token','')
+            state.token = ''
+        }
+    },
+    actions: {}
 })

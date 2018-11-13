@@ -24,6 +24,9 @@ const userDefine = {
     },
     join_time:{
         type:Date
+    },
+    password:{
+        type: String,
     }
 }
 

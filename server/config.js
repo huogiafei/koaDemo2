@@ -6,5 +6,7 @@ module.exports = {
         user:'root',
         password:'',
         database:'koa_demo2'
-    }
+    },
+
+    tokenPrivateKey:'koaDemo2'
 }

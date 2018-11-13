@@ -99,6 +99,7 @@
     import rolesData from "../../data/roles";
     import axios from 'axios'
     import router from "../../routers/router";
+    import md5 from 'js-md5'
 
     export default {
         name: "EditUser",
@@ -182,7 +183,8 @@
                     ga: self.form.haveGaPermission,
                     /*  onlineTime:[self.form.onlineTime.start,
                           self.form.onlineTime.end],*/
-                    join_time: self.form.joinTime
+                    join_time: self.form.joinTime,
+                    password:md5('123456')
                 }).then((res) => {
                     self.addUserLoading = false
                     if (res.data.code === 1) {

@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "joi": "^14.0.4",
+    "jsonwebtoken": "^8.3.0",
     "koa": "^2.5.3",
     "koa-bodyparser": "^4.2.1",
     "koa-compress": "^3.0.0",

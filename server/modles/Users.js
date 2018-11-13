@@ -37,7 +37,7 @@ const user = {
                         reject(err);
                     } else {
                         if (docs.length > 0) {
-                            console.log(docs)
+                            //console.log(docs)
                             resolve(docs)
                         } else {
                             reject(0)
@@ -47,12 +47,11 @@ const user = {
         })
     },
 
-    async findOneUser(id) {
+    async findOneUser(queryObj) {
         return new Promise(async (resolve, reject) => {
-            console.log(id)
-            User.findById(id, (err, doc) => {
+            User.findOne(queryObj, (err, doc) => {
                 if (err) {
-                    console.log(err)
+                    //console.log(err)
                     resolve(false)
                 } else {
                     resolve(doc)
@@ -71,7 +70,7 @@ const user = {
 
     async updateUser(id,data){
        return new Promise((resolve, reject) => {
-           console.log(id,data)
+           //console.log(id,data)
            User.findOneAndUpdate({'_id':id},data,(err,result)=>{
                resolve(true)
            })
@@ -101,7 +100,6 @@ const user = {
                 let doc = new User(randomObject)
                 dataArr.push(doc)
             }
-            console.log(dataArr)
             User.insertMany(dataArr, (err, docs) => {
                 resolve(this.findUsers())
             })

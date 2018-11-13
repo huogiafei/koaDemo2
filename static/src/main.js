@@ -5,6 +5,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import router from './routers/router'
 import Vuelidate from 'vuelidate'
 import "./assets/css/common.styl"
+import config from './config'
 import store from './store'
 
 Vue.config.productionTip = false

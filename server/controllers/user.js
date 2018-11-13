@@ -7,7 +7,8 @@ const schema = Joi.object().keys({
     permission: Joi.number(),
     role: Joi.number(),
     ga: Joi.boolean(),
-    join_time: Joi.date().min('1-1-2017')
+    join_time: Joi.date().min('1-1-2017'),
+    password: Joi.string().regex(/^[a-zA-Z0-9]{3,100}$/)
 })
 
 module.exports = {
@@ -22,7 +23,7 @@ module.exports = {
     findUser: async (ctx) => {
         const userId = ctx.request.body.id
         if (userId) {
-            let data = await Users.findOneUser(userId)
+            let data = await Users.findOneUser({'_id':userId})
             if (data) {
                 ctx.body = {code: 1, message: 'Get target user info success', data: data}
             } else {
@@ -32,16 +33,16 @@ module.exports = {
     },
     updateUser: async (ctx) => {
         let req = ctx.request.body
-        if(req.id){
+        if (req.id) {
             const userId = req.id
             delete req.id;
             console.log(req)
-            Joi.validate(req, schema,  (err, value) => {
+            Joi.validate(req, schema, (err, value) => {
                 if (err) {
                     console.log(err.details[0])
                     ctx.body = {code: 0, message: err.details[0].message,}
                 } else {
-                    let canUpdate= Users.updateUser(userId,req)
+                    let canUpdate = Users.updateUser(userId, req)
                     if (canUpdate) ctx.body = {code: 1, message: 'update success', data: {}}
                     else ctx.body = {code: 0, message: err.details[0].message,}
                 }
