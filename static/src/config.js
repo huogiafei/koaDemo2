@@ -2,7 +2,6 @@ import axios from 'axios'
 import store from './store'
 import router from './routers/router'
 
-
 axios.interceptors.request.use((config) => {
         if (store.state.token) {
             config.headers.Authorization = `Bearer ${store.state.token}`

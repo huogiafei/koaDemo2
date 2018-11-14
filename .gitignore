@@ -1,5 +1,6 @@
 static/node_modules
 server/node_modules
+server/uploads
 .idea
 *.iml
 out

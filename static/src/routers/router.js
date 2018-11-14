@@ -4,7 +4,10 @@ import Home from '../views/Home.vue'
 import Main from '../views/layout/Main'
 import Login from '../views/auth/Login.vue'
 import User from '../views/user/User'
+import Web from '../views/web/Web'
+import NotFound from '../views/layout/NotFound'
 import userRouters from "./r_users"
+import webRouters from "./r_web"
 
 Vue.use(Router)
 
@@ -38,7 +41,18 @@ export default new Router({
                     component: User,
                     children: userRouters,
                 },
+                {
+                    path: '/web',
+                    name: 'web',
+                    component: Web,
+                    meta: {requireAuth: true,},
+                    children: webRouters,
+                },
             ]
         },
+        {
+            path: '*',
+            component: NotFound
+        }
     ]
 })

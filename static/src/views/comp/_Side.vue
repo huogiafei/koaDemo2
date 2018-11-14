@@ -4,7 +4,7 @@
         <el-menu default-active="1-4-1" :class="['aside-menu',{'active':!isCollapse}]"
                  :unique-opened="true" :collapse-transition="false" router
                  @open="handleOpen" @close="handleClose" :collapse="isCollapse">
-            <el-menu-item index="/home">
+            <el-menu-item index="/">
                     <i class="aside-menu-icon my-icon icon-home"></i>
                     <span slot="title">Home</span>
             </el-menu-item>
@@ -16,6 +16,15 @@
                 </template>
                 <el-menu-item index="/user/list">List</el-menu-item>
                 <el-menu-item index="/user/edit">Edit</el-menu-item>
+            </el-submenu>
+
+            <el-submenu index="3">
+                <template slot="title">
+                    <i class="aside-menu-icon my-icon icon-monitor"></i>
+                    <span slot="title">Website</span>
+                </template>
+                <el-menu-item index="/web/index">Index Page</el-menu-item>
+                <el-menu-item index="/web/product">Product Page</el-menu-item>
             </el-submenu>
 
             <el-menu-item index="4">

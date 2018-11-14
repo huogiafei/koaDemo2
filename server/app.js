@@ -1,7 +1,9 @@
 const Koa = require('Koa');
 const config = require('./config');
 const routers = require('./routers/index');
+const path = require('path');
 const helmet = require('koa-helmet');
+const server = require('koa-static');
 const bodyParser = require('koa-bodyparser');
 const jwt = require('koa-jwt');
 const logger = require('koa-logger');
@@ -13,6 +15,7 @@ app.use(logger())
 app.use(helmet())
 app.use(errorHandle)
 app.use(bodyParser())
+app.use(server(path.join(__dirname,'/uploads')))
 
 app.use(jwt({secret: config.tokenPrivateKey}).unless({path: [/\/login/]}))
 
