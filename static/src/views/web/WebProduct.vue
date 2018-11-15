@@ -4,7 +4,7 @@
             <el-col :span="12" class="wp-edit">
                 <h1 class="view-title">Product Page</h1>
                 <section class="wp-edit-banner">
-                    <p class="wp-edit-title">Banner Upload</p>
+                    <h2 class="wp-edit-title">Banner Upload</h2>
                     <img :src="banner.img" v-if="banner.img" alt="" class="wp-edit-banner-thumb">
                     <el-upload
                             class="upload-demo"
@@ -13,12 +13,12 @@
                             name="file"
                             :show-file-list="false"
                             :before-upload="checkToken"
-                            :on-preview="handlePreview"
-                            :on-remove="handleRemove"
-                            :on-success="handleSuccess"
-                            :on-error="handleError"
-                            :before-remove="beforeRemove">
-                        <el-button size="small" type="primary">Upload Banner</el-button>
+                            :on-success="handleBannerSuccess"
+                            :on-error="handleBannerError">
+                        <el-button type="primary">
+                            <i class="my-icon icon-upload-cloud"></i>
+                            Upload Banner
+                        </el-button>
                         <div slot="tip" class="wp-edit-tip">*Only jpg/png file within 500k</div>
                     </el-upload>
 
@@ -32,11 +32,28 @@
                             <el-input v-model="banner.link" placeholder="Banner Link"
                                       class="form-input-s"></el-input>
                         </el-form-item>
+                        <el-form-item>
+                            <el-button>Save Banner</el-button>
+                        </el-form-item>
                     </el-form>
+
                 </section>
 
                 <section class="wp-edit-wall">
-
+                    <h2 class="wp-edit-title">Wall Upload</h2>
+                    <el-upload
+                            name="file"
+                            action="/api/web/wallUpload"
+                            list-type="picture-card"
+                            :headers="uploadHeader"
+                            :before-upload="checkWallNum"
+                            :on-success="handleWallSuccess"
+                            :on-remove="handleWallRemove">
+                        <i class="el-icon-plus"></i>
+                    </el-upload>
+                    <p>
+                        <el-button @click="saveWall">Save Wall</el-button>
+                    </p>
                 </section>
             </el-col>
             <el-col :span="12" class="wp-preview">
@@ -48,8 +65,10 @@
                 <section class="wp-preview-wall">
                     <p class="wp-preview-title">Wall</p>
                     <ul class="wp-preview-wall-list">
-                        <li v-for="n in 9"><img src="https://placehold.it/300x300" alt=""></li>
+                        <li v-for="item in previewWall">
+                            <img :src="item.link" alt=""></li>
                     </ul>
+
                 </section>
             </el-col>
         </el-row>
@@ -59,6 +78,9 @@
 
 <script>
     import storage from '../../utils/storage'
+    import axios from 'axios'
+
+    const placeholdURL = 'https://placehold.it/'
 
     export default {
         name: "WebProduct",
@@ -69,6 +91,9 @@
                     title: '',
                     link: '',
                     img: ''
+                },
+                wall: {
+                    imgs: []
                 }
 
             }
@@ -81,27 +106,59 @@
                     return true
                 }
             },
-            handleError(err, file, fileList) {
+            checkWallNum() {
+                if (this.wall.imgs.length >= 9) {
+                    this.$message.error({
+                        message: 'wall limited : 9'
+                    });
+                    return false
+                } else {
+                    return true
+                }
+            },
+            handleBannerError(err, file, fileList) {
                 console.log(err)
             },
-            handleSuccess(res, file, fileList) {
+            handleBannerSuccess(res, file, fileList) {
                 this.banner.img = res.data.link
             },
-            handleRemove(file, fileList) {
-                console.log(file, fileList);
+            handleWallSuccess(res, file, fileList) {
+                this.wall.imgs.push(res.data)
             },
-            handlePreview(file) {
-                console.log(file);
+            handleWallRemove(file, fileList) {
+                console.log(file, fileList)
             },
-            beforeRemove(file, fileList) {
-                return this.$confirm(`确定移除 ${ file.name }？`);
+            saveWall() {
+                let ids = Array.from(this.wall.imgs, img => img.imgId)
+                axios.post('/api/web/wallSave', {
+                    ids: JSON.stringify(ids)
+                }).then((res) => {
+                    console.log(res.data)
+                })
+            },
+            getWall() {
+                axios.post('/api/web/wallGet').then((res) => {
+                    if (res.data.code === 1) {
+                        let result = res.data.data.imgs
+                        this.wall.imgs = result
+                    }
+                })
             }
         },
         computed: {
             previewBanner() {
                 let url = this.banner.img
-                return url ? url : 'https://placehold.it/1920x400'
+                return url ? url : placeholdURL + '1920x400'
+            },
+            previewWall() {
+                let data = this.wall.imgs
+                let place = placeholdURL + '300x300'
+                let other = new Array(9 - data.length).fill({link: place, id: ''})
+                return data.concat(other)
             }
+        },
+        created() {
+            this.getWall()
         }
 
     }

@@ -37,14 +37,15 @@ function uploadFile(ctx, options) {
 
     return new Promise((resolve, reject) => {
         busboy.on('file', (fieldname, file, filename) => {
+            console.log(fieldname)
             let fileName = Math.random().toString(16).substr(2)
+                + new Date().getTime()
                 + '.' + getSuffix(filename)
             let _uploadFilePath = path.join(filePath, fileName)
             let saveTo = path.join(_uploadFilePath)
             file.pipe(fs.createWriteStream(saveTo))
             file.on('end', () => {
-                const finalLink = ctx.request.header['x-forwarded-proto'] + '://' +
-                    ctx.request.header.host + '/' + bucket + '/' + fileName
+                const finalLink = bucket + '/' + fileName
                 console.log(finalLink)
                 resolve(finalLink)
             })
